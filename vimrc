@@ -1,10 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" This option has the effect of making Vim either more Vi-compatible, or
-" make Vim behave in a more useful way.
-set nocompatible
-
 " Used for vundle plugin manager
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -115,14 +111,9 @@ set nrformats=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set terminal to 256 colors
-set t_Co=256
-
 " Enable syntax highlighting / Commented out because it is
 " set by the theme
 syntax enable
-
-set background=dark
 
 try
     colorscheme railscasts
