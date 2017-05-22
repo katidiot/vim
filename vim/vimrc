@@ -39,6 +39,8 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'zirrostig/vim-schlepp'
 Plugin 'sjl/gundo.vim'
+"Plugin 'ajh17/VimCompletesMe'
+"Plugin 'lervag/vimtex'
 call vundle#end()
 
 " Enable filetype plugins
@@ -64,7 +66,7 @@ set wildmenu
 set wildmode=longest,list
 
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*~,*.pyc,*.so,*.swp,*.zip
 if has("win16") || has("win32")
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 else
@@ -72,7 +74,11 @@ else
 endif
 
 "Always show current position
-set ruler
+" Not needed with vim-airline plugin
+"set ruler
+
+" Always show the status line
+set laststatus=2
 
 " Height of the command bar
 set cmdheight=2
@@ -107,6 +113,9 @@ set foldcolumn=1
 
 " Use decimal numbers when adding to and subtracting from a number
 set nrformats=
+
+" Enable mouse interactions in terminal mode
+set mouse=a
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -201,61 +210,13 @@ noremap <Right> <NOP>
 " Moving around Buffers
 map <C-Right> :bn<cr>
 map <C-Left> :bp<cr>
-map <C-Down> :bd<cr>
-
-""""""""""""""""""""""""""""""
-" => Status line
-""""""""""""""""""""""""""""""
-" Always show the status line
-set laststatus=2
-
-" Format the status line
-""set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
-"set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
-"let c='a'
-"while c <= 'z'
-"    exec "set <A-".c.">=\e".c
-"    exec "imap \e".c." <A-".c.">"
-"    let c = nr2char(1+char2nr(c))
-"endw
-"set timeout ttimeoutlen=10
-"nmap <A-j> mz:m+<CR>`z
-"nmap <A-k> mz:m-2<CR>`z
-"vmap <A-j> :m'>+<CR>`<my`>mzgv`yo`z
-"vmap <A-k> :m'<-2<CR>`>my`<mzgv`yo`z
-
-"" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-"func! DeleteTrailingWS()
-"  exe 'normal mz'
-"  %s/\s\+$//ge
-"  exe 'normal `z'
-"endfunc
-"autocmd BufWrite *.py :call DeleteTrailingWS()
-"autocmd BufWrite *.coffee :call DeleteTrailingWS()
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" Returns true if paste mode is enabled
-"function! HasPaste()
-"    if &paste
-"        return 'PASTE MODE  '
-"    en
-"    return ''
-"endfunction
+map <C-Down> :bp<bar>sp<bar>bn<bar>bd<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pressing ,ss will toggle and untoggle spell checking
+" Pressing <leader>ss will toggle and untoggle spell checking
 map <leader>ss :setlocal spell! spelllang=en<cr>
 map <leader>se :setlocal spell! spelllang=el<cr>
 
@@ -263,7 +224,6 @@ map <leader>se :setlocal spell! spelllang=el<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
@@ -287,8 +247,7 @@ nnoremap <F3> :set hlsearch!<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
-" Show when lines extend past column 80
-
+" Show when lines extend past column x
 highlight ColorColumn ctermfg=208 ctermbg=Black
 
 function! MarkMargin (on)
@@ -300,7 +259,7 @@ function! MarkMargin (on)
         unlet b:MarkMargin
     endif
     if a:on
-        let b:MarkMargin = matchadd('ColorColumn', '\%121v\s*\S', 100)
+        let b:MarkMargin = matchadd('ColorColumn', '\%81v\s*\S', 100)
     endif
 endfunction
 
@@ -314,12 +273,12 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => SimpylFold configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:SimpylFold_docstring_preview = 1
-autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
-
-" Enable folding with the spacebar
-nnoremap <C-@> za
+"let g:SimpylFold_docstring_preview = 1
+"autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
+"autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+"
+"" Enable folding with the spacebar
+"nnoremap <C-@> za
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -373,14 +332,14 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Airline power bar configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline_powerline_fonts = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => AutoPep configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType python map <leader>pep :call Autopep8()<CR>
+"autocmd FileType python map <leader>pep :call Autopep8()<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
