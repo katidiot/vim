@@ -20,7 +20,7 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Plugin 'hdima/python-syntax'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ctrlpvim/ctrlp.vim'
-""" Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-surround'
 " Plugin 'tell-k/vim-autopep8'
 Plugin 'SirVer/ultisnips'
@@ -269,6 +269,8 @@ augroup MarkMargin
     autocmd  BufEnter  *.vp*   :call MarkMargin(0)
 augroup END
 
+" Change <leader> mapping
+let mapleader=" "
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => SimpylFold configuration
@@ -306,6 +308,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_go_checkers = ['go']
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -332,8 +335,8 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Airline power bar configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let g:airline#extensions#tabline#enabled = 1
-"let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
