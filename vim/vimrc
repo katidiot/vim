@@ -9,38 +9,26 @@ call vundle#begin()
 " For GitHub repos, you specify plugins using the
 " 'user/repository' format
 Plugin 'VundleVim/Vundle.vim'
-" Plugin 'tmhedberg/SimpylFold'
-" Plugin 'vim-scripts/indentpython.vim'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'Valloric/YouCompleteMe'
-" Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'scrooloose/syntastic'
+"Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Plugin 'hdima/python-syntax'
 Plugin 'tpope/vim-fugitive'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-surround'
-" Plugin 'tell-k/vim-autopep8'
 Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 Plugin 'fatih/vim-go'
-"""Plugin 'nvie/vim-flake8'
 Plugin 'jpo/vim-railscasts-theme'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'majutsushi/tagbar'
-"Plugin 'jodosha/vim-godebug'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'zirrostig/vim-schlepp'
 Plugin 'sjl/gundo.vim'
-"Plugin 'ajh17/VimCompletesMe'
-"Plugin 'lervag/vimtex'
 call vundle#end()
 
 " Enable filetype plugins
@@ -338,6 +326,14 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 
+" testing rounded separators (extra-powerline-symbols):
+"set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ 12
+let g:airline_left_sep = "\uE0B4"
+let g:airline_right_sep = "\uE0B6"
+"
+"" set the CN (column number) symbol:
+"let g:airline_section_a = airline#section#create(['mode', ' ', 'branch'])
+let g:airline_section_z = airline#section#create(["\uE0A1" . '%{line(".")}' . "\uE0A3" . '%{col(".")}'])
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => AutoPep configuration
