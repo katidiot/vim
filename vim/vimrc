@@ -11,7 +11,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'Valloric/YouCompleteMe'
-"Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'tpope/vim-fugitive'
@@ -29,6 +29,9 @@ Plugin 'majutsushi/tagbar'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'sjl/gundo.vim'
+Plugin 'arcticicestudio/nord-vim'
+Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
 call vundle#end()
 
 " Enable filetype plugins
@@ -316,8 +319,21 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree())
 	\ | q | endif
 
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "",
+    \ "Staged"    : "",
+    \ "Untracked" : "",
+    \ "Renamed"   : "",
+    \ "Unmerged"  : "",
+    \ "Deleted"   : "",
+    \ "Dirty"     : "",
+    \ "Clean"     : "",
+    \ 'Ignored'   : "",
+    \ "Unknown"   : ""
+    \ }
+let g:NERDTreeShowIgnoredStatus = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -420,7 +436,7 @@ autocmd FileType go nmap <Leader>i <Plug>(go-info)
 "let g:go_auto_type_info = 1
 
 " Identifier highlighting
-let g:go_auto_sameids = 1
+let g:go_auto_sameids = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
