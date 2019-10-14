@@ -10,11 +10,11 @@ call vundle#begin()
 " 'user/repository' format
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'scrooloose/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'tpope/vim-fugitive'
+"Plugin 'tpope/vim-fugitive'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'tpope/vim-surround'
@@ -29,9 +29,6 @@ Plugin 'majutsushi/tagbar'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'sjl/gundo.vim'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'mxw/vim-jsx'
-Plugin 'pangloss/vim-javascript'
 call vundle#end()
 
 " Enable filetype plugins
@@ -173,6 +170,9 @@ vnoremap <silent> # :call VisualSelection('b', '')<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Change <leader> mapping
+let mapleader="\<Space>"
+
 " Treat long lines as break lines (useful when moving around in them)
 map j gj
 map k gk
@@ -221,6 +221,18 @@ map <leader>pp :setlocal paste!<cr>
 " Toggle line numbers on and off
 map <leader>nn :set invnumber<CR>
 
+" Save current buffer
+nnoremap <leader>w :w<cr>
+
+" Replace the word under cursor
+nnoremap <leader>* :%s/\<<c-r><c-w>\>//g<left><left>
+
+" Move lines around
+nnoremap <leader>k :m-2<cr>==
+nnoremap <leader>j :m+<cr>==
+xnoremap <leader>k :m-2<cr>gv=gv
+xnoremap <leader>j :m'>+<cr>gv=gv
+
 " Make operations inside pipes ( | )
 nnoremap di\| T\|d,
 nnoremap da\| F\|d,
@@ -260,18 +272,11 @@ augroup MarkMargin
     autocmd  BufEnter  *.vp*   :call MarkMargin(0)
 augroup END
 
-" Change <leader> mapping
-let mapleader=" "
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => SimpylFold configuration
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let g:SimpylFold_docstring_preview = 1
-"autocmd BufWinEnter *.py setlocal foldexpr=SimpylFold(v:lnum) foldmethod=expr
-"autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
-"
-"" Enable folding with the spacebar
-"nnoremap <C-@> za
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => fzf configuration
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set rtp+=~/.fzf
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -351,11 +356,6 @@ let g:airline_right_sep = "\uE0B6"
 "let g:airline_section_a = airline#section#create(['mode', ' ', 'branch'])
 let g:airline_section_z = airline#section#create(["\uE0A1" . '%{line(".")}' . "\uE0A3" . '%{col(".")}'])
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => AutoPep configuration
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"autocmd FileType python map <leader>pep :call Autopep8()<CR>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => UltiSnips configuration
@@ -424,6 +424,9 @@ autocmd FileType qf wincmd J
 " Use imports upon save
 let g:go_fmt_command = "goimports"
 
+" Define snippet engine to use
+let g:go_snippet_engine = "ultisnips"
+
 " Use camelCase
 let g:go_snippet_case_type = "camelcase"
 
@@ -432,7 +435,7 @@ let g:go_snippet_case_type = "camelcase"
 
 " Show method declaration in status bar
 "set updatetime=100
-autocmd FileType go nmap <Leader>i <Plug>(go-info)
+autocmd FileType go nmap <leader>i <Plug>(go-info)
 "let g:go_auto_type_info = 1
 
 " Identifier highlighting
@@ -452,12 +455,7 @@ let g:gundo_right = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-schlepp configuration
+" => ctrlp configuration
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"  Make arrow keys move visual blocks around
-vmap <up>    <Plug>SchleppUp
-vmap <down>  <Plug>SchleppDown
-vmap <left>  <Plug>SchleppLeft
-vmap <right> <Plug>SchleppRight
-vmap D       <Plug>SchleppDupLeft
-vmap <C-D>   <Plug>SchleppDupLeft
+let g:ctrlp_map = '<leader>c'
+let g:ctrlp_cmd = 'CtrlPBuffer'
