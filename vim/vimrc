@@ -1,35 +1,29 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Used for vundle plugin manager
-filetype off
-set runtimepath+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" This is the Vundle package, which can be found on GitHub.
-" For GitHub repos, you specify plugins using the
-" 'user/repository' format
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'ntpeters/vim-better-whitespace'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'scrooloose/syntastic'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-"Plugin 'tpope/vim-fugitive'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'tpope/vim-surround'
-Plugin 'SirVer/ultisnips'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-commentary'
-Plugin 'fatih/vim-go'
-Plugin 'jpo/vim-railscasts-theme'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'majutsushi/tagbar'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'sjl/gundo.vim'
-call vundle#end()
+" Used for vim-plug plugin manager
+call plug#begin('~/.vim/bundle')
+Plug 'ntpeters/vim-better-whitespace'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'tpope/vim-fugitive'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'tpope/vim-surround'
+Plug 'SirVer/ultisnips'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
+Plug 'fatih/vim-go'
+Plug 'jpo/vim-railscasts-theme'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'majutsushi/tagbar'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-unimpaired'
+Plug 'sjl/gundo.vim'
+call plug#end()
 
 " Enable filetype plugins
 filetype plugin on
