@@ -3,28 +3,33 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Used for vim-plug plugin manager
 call plug#begin('~/.vim/bundle')
-Plug 'ntpeters/vim-better-whitespace'
-"Plug 'Valloric/YouCompleteMe'
-Plug 'scrooloose/syntastic'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-fugitive'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-surround'
-Plug 'SirVer/ultisnips'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-commentary'
-Plug 'fatih/vim-go'
+
+"'' Language Support ''"
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/tagbar'
+Plug 'airblade/vim-gitgutter'
+
+"'' fzf ''"
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+"'' Themes ''"
+Plug 'ryanoasis/vim-devicons'
 Plug 'jpo/vim-railscasts-theme'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'majutsushi/tagbar'
-Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+
+"'' Utilities ''"
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'sjl/gundo.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf.vim'
+
 call plug#end()
 
 " Enable filetype plugins
@@ -100,6 +105,9 @@ set nrformats=
 
 " Enable mouse interactions in terminal mode
 set mouse=a
+
+" Relative line numbers
+set number relativenumber
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -246,61 +254,23 @@ nnoremap <F3> :set hlsearch!<CR>
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
-" Show when lines extend past column x
-highlight ColorColumn ctermfg=208 ctermbg=Black
-
-function! MarkMargin (on)
-    if exists('b:MarkMargin')
-        try
-            call matchdelete(b:MarkMargin)
-        catch /./
-        endtry
-        unlet b:MarkMargin
-    endif
-    if a:on
-        let b:MarkMargin = matchadd('ColorColumn', '\%81v\s*\S', 100)
-    endif
-endfunction
-
-augroup MarkMargin
-    autocmd!
-    autocmd  BufEnter  *       :call MarkMargin(1)
-    autocmd  BufEnter  *.vp*   :call MarkMargin(0)
-augroup END
+" Use Ctrl+c to copy selection to system clipboard
+xnoremap <C-c> "+y
+nnoremap <silent> cp "+y
+nnoremap <silent> cpp "+yy
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => fzf configuration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set rtp+=~/.fzf
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim-better-whitespace configuration
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-highlight ExtraWhitespace ctermbg=red
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => YouCompleteMe configuration
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:ycm_server_python_interpreter='/usr/bin/python'
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Syntastic configuration
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_go_checkers = ['go']
+let g:fzf_preview_window = ['right:50%', 'ctrl-/']
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
+nnoremap <C-b> :Buffers<CR>
+nnoremap <C-f> :Files<CR>
+nnoremap <C-g> :Rg<CR>
+nnoremap <C-m> :Marks<CR>
+nnoremap <C-t> :Windows<CR>
+nnoremap <C-s> :BCommits<CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -320,21 +290,28 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree())
 	\ | q | endif
 
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "",
-    \ "Staged"    : "",
-    \ "Untracked" : "",
-    \ "Renamed"   : "",
-    \ "Unmerged"  : "",
-    \ "Deleted"   : "",
-    \ "Dirty"     : "",
-    \ "Clean"     : "",
-    \ 'Ignored'   : "",
-    \ "Unknown"   : ""
-    \ }
-let g:NERDTreeShowIgnoredStatus = 1
+"let g:NERDTreeDirArrowExpandable = ''
+"let g:NERDTreeDirArrowCollapsible = ''
+"let g:NERDTreeIndicatorMapCustom = {
+"    \ "Modified"  : "",
+"    \ "Staged"    : "",
+"    \ "Untracked" : "",
+"    \ "Renamed"   : "",
+"    \ "Unmerged"  : "",
+"    \ "Deleted"   : "",
+"    \ "Dirty"     : "",
+"    \ "Clean"     : "",
+"    \ "Ignored"   : "",
+"    \ "Unknown"   : ""
+"    \ }
+
+let g:NERDTreeGitStatusShowIgnored = 1
+
+" Show dot files
+let NERDTreeShowHidden = 1
+
+" If more than one window and previous buffer was NERDTree, go back to it.
+autocmd BufEnter * if bufname('#') =~# "^NERD_tree_" && winnr('$') > 1 | b# | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -351,16 +328,6 @@ let g:airline_right_sep = "\uE0B6"
 "" set the CN (column number) symbol:
 "let g:airline_section_a = airline#section#create(['mode', ' ', 'branch'])
 let g:airline_section_z = airline#section#create(["\uE0A1" . '%{line(".")}' . "\uE0A3" . '%{col(".")}'])
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => UltiSnips configuration
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Trigger configuration. Do not use <tab> if
-" you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-b>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -429,17 +396,28 @@ let g:go_snippet_case_type = "camelcase"
 " Enable MetaLinter by default
 "let g:go_metalinter_autosave = 1
 
-" Show method declaration in status bar
-"set updatetime=100
-autocmd FileType go nmap <leader>i <Plug>(go-info)
-"let g:go_auto_type_info = 1
-
 " Identifier highlighting
 let g:go_auto_sameids = 0
 
 " disable vim-go :GoDef short cut (gd)
 " this is handled by LanguageClient [LC]
 let g:go_def_mapping_enabled = 0
+
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_chan_whitespace_error = 0
+let g:go_highlight_extra_types = 0
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_operators = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_highlight_variable_declarations = 1
+let g:go_highlight_variable_assignments = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -452,13 +430,7 @@ nnoremap <F5> :GundoToggle<CR>
 let g:gundo_width = 60
 let g:gundo_preview_height = 40
 let g:gundo_right = 1
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => ctrlp configuration
-" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:ctrlp_map = '<leader>c'
-let g:ctrlp_cmd = 'CtrlPBuffer'
+let g:gundo_prefer_python3 = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -475,6 +447,27 @@ set shortmess+=c
 " always show signcolumns
 set signcolumn=yes
 
+let g:coc_global_extensions=[
+      \'coc-angular',
+      \'coc-css',
+      \'coc-cssmodules',
+      \'coc-diagnostic',
+      \'coc-docker',
+      \'coc-explorer',
+      \'coc-highlight',
+      \'coc-html',
+      \'coc-json',
+      \'coc-markdownlint',
+      \'coc-prettier',
+      \'coc-python',
+      \'coc-sh',
+      \'coc-snippets',
+      \'coc-sql',
+      \'coc-swagger',
+      \'coc-yaml',
+      \]
+      "\'coc-go',
+
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -488,6 +481,12 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                             \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
@@ -497,32 +496,36 @@ nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use U to show documentation in preview window
-nnoremap <silent> U :call <SID>show_documentation()<CR>
+nnoremap <silent> <space>i :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    elseif (coc#rpc#ready())
+      call CocActionAsync('doHover')
+    else
+      execute '!' . &keywordprg . " " . expand('<cword>')
+    endif
+  endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
+
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Remap for format selected region
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 " Show all diagnostics
 nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
